@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Memory :: Game by loqtor</title>
+  <link rel="stylesheet" href="styles/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/styles.css">
+</head>
+<body>
+  <header>
+    <h1 innerHTML="Memory :: Tremendo Game"></h1>
+  </header>
+  <div class="container">
+    <div id="board" class="row"></div>
+  </div>
+</body>
+<script type="underscore/template" id="tiles-tpl">
+  <% _.each(tiles, function (tile, index) { %>
+    <div class="col-lg-3 col-md-3 col-sm-3 tile" data-index="<%= index %>" data-status="<%= tile.status %>">
+      <span>Flip me!</span>
+      <img src="<%= tile.img %>">
+    </div>
+  <% }); %>
+</script>
+<script type="text/javascript" src="app/src/lib/jquery.js"></script>
+<script type="text/javascript" src="app/src/lib/underscore.js"></script>
+<script type="text/javascript" src="app/src/modules/status.js"></script>
+<script type="text/javascript" src="app/src/modules/tile.js"></script>
+<script type="text/javascript" src="app/src/modules/board.js"></script>
+<script type="text/javascript" src="app/src/modules/template.js"></script>
+<script type="text/javascript" src="app/src/modules/memory.js"></script>
+<script type="text/javascript">
+
+  (function() {
+    Memory.init();
+  })();
+
+</script>
+</html>
