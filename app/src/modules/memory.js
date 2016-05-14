@@ -1,4 +1,4 @@
-(function (window, document, $, _, Board, Status, Template) {
+(function (window, document, $, _, Board, Status, Template, Clock) {
 
   window.Memory = (function () {
 
@@ -43,6 +43,11 @@
                 if (flipped[0].img === flipped[1].img) {
                   flipped[0].status = Status.MATCHED;
                   flipped[1].status = Status.MATCHED;
+
+                  if (Board.allMatched()) {
+                    alert('You won!');
+                  }
+
                 } else {
                   timeoutEnabled = true;
                   timeout = setTimeout(function () {
@@ -69,6 +74,7 @@
       init: function () {
         Board.init();
         drawTiles();
+        Clock.init(60000, '#clock');
         bindEvents();
       },
 
@@ -79,4 +85,4 @@
 
   })();
 
-})(window, document, jQuery, _, window.Memory.Board, window.Memory.Status, window.Memory.Template);
+})(window, document, jQuery, _, window.Memory.Board, window.Memory.Status, window.Memory.Template, window.Memory.Clock);
