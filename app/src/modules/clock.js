@@ -31,7 +31,6 @@
         clockContainer = $(selector);
 
         clockContainer.html(limit);
-
         countdown();
       }
     }
