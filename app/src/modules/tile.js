@@ -10,10 +10,11 @@
         image = null;
 
     return {
-      create: function (img) {
+      create: function (img, index) {
         return {
           status: status,
-          img: img
+          img: img,
+          index: index
         }
       }
     }

@@ -15,15 +15,15 @@
   </div>
 </body>
 <script type="underscore/template" id="tiles-tpl">
-  <% _.each(tiles, function (tile, index) { %>
-    <div class="col-lg-3 col-md-3 col-sm-3 tile" data-index="<%= index %>" data-status="<%= tile.status %>">
+  <% _.each(tiles, function (tile) { %>
+    <div class="col-lg-3 col-md-3 col-sm-3 tile" data-index="<%= tile.index %>" data-status="<%= tile.status %>">
       <span>Flip me!</span>
       <img src="<%= tile.img %>">
     </div>
   <% }); %>
 </script>
 <script type="text/javascript" src="app/src/lib/jquery.js"></script>
-<script type="text/javascript" src="app/src/lib/underscore.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/lodash/4.12.0/lodash.min.js"></script>
 <script type="text/javascript" src="app/src/modules/status.js"></script>
 <script type="text/javascript" src="app/src/modules/tile.js"></script>
 <script type="text/javascript" src="app/src/modules/board.js"></script>

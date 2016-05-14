@@ -11,11 +11,11 @@
 
         tiles = [],
 
-        drawTiles = function () {
+        setTiles = function () {
           for (var i = 0; i < MAX_TILES; i += 2) {
             var img = IMAGES[Math.ceil(Math.random() * (IMAGES.length - 1))];
-            tiles[i] = Tile.create(PATH + img);
-            tiles[i + 1] = Tile.create(PATH + img);
+            tiles[i] = Tile.create(PATH + img, i);
+            tiles[i + 1] = Tile.create(PATH + img, i + 1);
           }
 
           tiles = _.shuffle(tiles);
@@ -23,7 +23,7 @@
 
     return {
       init: function () {
-        drawTiles();
+        setTiles();
       },
 
       getTiles: function () {
@@ -37,7 +37,13 @@
       },
 
       updateTile: function (index, status) {
-        tiles[index].status = status;
+        tiles = _.map(tiles, function (tile) {
+          if (index === tile.index) {
+            tile.status = status;
+          }
+
+          return tile;
+        });
       },
 
       allMatched: function () {
