@@ -10,6 +10,7 @@
         clockContainer = null,
 
         promise = null,
+        gameOver = false;
 
         updateClock = function () {
           clockContainer.html(--limit);
@@ -19,10 +20,9 @@
           setTimeout(function () {
             updateClock();
 
-            if (limit > 0) {
+            if (limit > 0 && !gameOver) {
               countdown(resolve);
             } else {
-              alert('Game over, loco!');
               resolve();
             }
           }, 1000);
@@ -39,6 +39,10 @@
         });
 
         return promise;
+      },
+
+      stop: function () {
+        gameOver = true;
       }
     }
 

@@ -47,6 +47,7 @@
 
                   if (Board.allMatched()) {
                     alert('You won!');
+                    Clock.stop();
                   }
 
                 } else {
