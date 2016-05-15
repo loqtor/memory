@@ -7,8 +7,35 @@
   <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1077877792269491',
+        xfbml      : true,
+        version    : 'v2.6'
+      });
+
+      FB.login(Memory.init, {
+        scope: 'user_friends, user_photos'
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
   <header>
     <h1 innerHTML="Memory :: Tremendo Game"></h1>
+    <div
+      class="fb-like"
+      data-share="true"
+      data-width="450"
+      data-show-faces="true">
+    </div>
   </header>
   <div id="clock"></div>
   <div class="container">
@@ -34,7 +61,7 @@
 <script type="text/javascript">
 
   (function() {
-    Memory.init();
+    // Memory.init();
   })();
 
 </script>

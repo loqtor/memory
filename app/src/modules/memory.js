@@ -9,6 +9,8 @@
         timeoutEnabled = false,
         gameOver = false,
 
+        images = ['assets/img/1.jpg', 'assets/img/2.jpg', 'assets/img/3.jpg', 'assets/img/4.jpg'],
+
         drawTiles = function () {
           var tiles = Board.getTiles(),
               content = tilesTpl({
@@ -66,6 +68,15 @@
           }
         },
 
+        startGame = function () {
+          Board.init(images);
+          drawTiles();
+          Clock.init(60000, '#clock').then(function () {
+            gameOver = true;
+          });
+          bindEvents();
+        },
+
         bindEvents = function () {
 
           boardContainer.on('click', '.tile', update);
@@ -73,13 +84,30 @@
         };
 
     return {
-      init: function () {
-        Board.init();
-        drawTiles();
-        Clock.init(60000, '#clock').then(function () {
-          gameOver = true;
-        });
-        bindEvents();
+      init: function (fbResponse) {
+        if (fbResponse.status === 'connected') {
+          FB.api(
+            '/' + fbResponse.authResponse.userID + '/taggable_friends',
+            function (response) {
+              if (response && !response.error) {
+                if (response.data && response.data.length > 0) {
+                  images = _.chain(response.data)
+                            .filter(function (friend) {
+                              return !friend.picture.data.is_silhouette;
+                            })
+                            .map(function (friend) {
+                              return friend.picture.data.url;
+                            })
+                            .value();
+                }
+
+                startGame();
+              }
+            }
+          );
+        } else {
+          startGame();
+        }
       },
 
       timeoutEnabled () {

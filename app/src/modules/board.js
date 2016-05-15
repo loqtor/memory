@@ -6,24 +6,21 @@
 
   window.Memory.Board = (function () {
     var MAX_TILES = 20,
-        PATH = 'assets/img/',
-        IMAGES = ['1.jpg', '2.jpg', '3.jpg', '4.jpg'],
-
         tiles = [],
 
-        setTiles = function () {
+        setTiles = function (images) {
           for (var i = 0; i < MAX_TILES; i += 2) {
-            var img = IMAGES[Math.ceil(Math.random() * (IMAGES.length - 1))];
-            tiles[i] = Tile.create(PATH + img, i);
-            tiles[i + 1] = Tile.create(PATH + img, i + 1);
+            var img = images[Math.ceil(Math.random() * (images.length - 1))];
+            tiles[i] = Tile.create(img, i);
+            tiles[i + 1] = Tile.create(img, i + 1);
           }
 
           tiles = _.shuffle(tiles);
         };
 
     return {
-      init: function () {
-        setTiles();
+      init: function (images) {
+        setTiles(images);
       },
 
       getTiles: function () {
