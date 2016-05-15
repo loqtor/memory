@@ -73,8 +73,21 @@
           drawTiles();
           Clock.init(60000, '#clock').then(function () {
             gameOver = true;
+            $('.tile').addClass('flipped');
+            $('#clock').html('Prontito!');
           });
           bindEvents();
+        },
+
+        setImages = function (friends) {
+          return _.chain(friends)
+                    .filter(function (friend) {
+                      return !friend.picture.data.is_silhouette;
+                    })
+                    .map(function (friend) {
+                      return friend.picture.data.url;
+                    })
+                    .value();
         },
 
         bindEvents = function () {
@@ -91,14 +104,7 @@
             function (response) {
               if (response && !response.error) {
                 if (response.data && response.data.length > 0) {
-                  images = _.chain(response.data)
-                            .filter(function (friend) {
-                              return !friend.picture.data.is_silhouette;
-                            })
-                            .map(function (friend) {
-                              return friend.picture.data.url;
-                            })
-                            .value();
+                  images = setImages(response.data);
                 }
 
                 startGame();
