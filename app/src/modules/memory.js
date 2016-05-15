@@ -7,6 +7,7 @@
         boardContainer = $('#board'),
         timeout = null,
         timeoutEnabled = false,
+        gameOver = false,
 
         drawTiles = function () {
           var tiles = Board.getTiles(),
@@ -28,7 +29,7 @@
         },
 
         update = function (e) {
-          if(!timeoutEnabled) {
+          if (!timeoutEnabled && !gameOver) {
             var tile = $(e.target),
                 index = tile.data('index');
 
@@ -74,7 +75,9 @@
       init: function () {
         Board.init();
         drawTiles();
-        Clock.init(60000, '#clock');
+        Clock.init(60000, '#clock').then(function () {
+          gameOver = true;
+        });
         bindEvents();
       },
 
