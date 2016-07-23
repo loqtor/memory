@@ -4,7 +4,9 @@
 
     var tilesTpl = Template.getTemplate('#tiles-tpl'),
 
+        controls = $('#controls'),
         boardContainer = $('#board'),
+        inGameControls = $('#in-game-controls'),
         timeout = null,
         timeoutEnabled = false,
         gameOver = false,
@@ -71,12 +73,12 @@
         startGame = function () {
           Board.init(images);
           drawTiles();
-          Clock.init(60000, '#clock').then(function () {
+          Clock.init(180000, '#clock').then(function () {
             gameOver = true;
             $('.tile').addClass('flipped');
             $('#clock').html('Prontito!');
           });
-          bindEvents();
+          inGameControls.find('button').removeClass('hide');
         },
 
         setImages = function (friends) {
@@ -90,35 +92,58 @@
                     .value();
         },
 
+        handleFbResponse = function (fbResponse) {
+          if (fbResponse.status === 'connected') {
+            FB.api(
+              '/' + fbResponse.authResponse.userID + '/taggable_friends',
+              function (response) {
+                if (response && !response.error) {
+                  if (response.data && response.data.length > 0) {
+                    images = setImages(response.data);
+                  }
+
+                  startGame();
+                }
+              }
+            );
+          } else {
+            startGame();
+          }
+        },
+
+        handleOption = function (e) {
+          controls.hide();
+
+          var clicked = $(e.target);
+
+          if (clicked.data('action') === 'fb') {
+            FB.login(handleFbResponse, {
+              scope: 'user_friends, user_photos',
+            });
+          } else {
+            startGame();
+          }
+        },
+
+        restart = function () {
+          startGame();
+        },
+
         bindEvents = function () {
-
+          controls.on('click', 'button', handleOption);
           boardContainer.on('click', '.tile', update);
-
+          inGameControls.on('click', 'button[data-action="restart"]', restart);
         };
 
     return {
       init: function (fbResponse) {
-        if (fbResponse.status === 'connected') {
-          FB.api(
-            '/' + fbResponse.authResponse.userID + '/taggable_friends',
-            function (response) {
-              if (response && !response.error) {
-                if (response.data && response.data.length > 0) {
-                  images = setImages(response.data);
-                }
-
-                startGame();
-              }
-            }
-          );
-        } else {
-          startGame();
-        }
+        bindEvents();
       },
 
-      timeoutEnabled () {
+      timeoutEnabled: function () {
         return timeoutEnabled;
-      }
+      },
+
     };
 
   })();

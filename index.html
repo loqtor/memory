@@ -8,15 +8,11 @@
 </head>
 <body>
   <script>
-    window.fbAsyncInit = function() {
+    window.fbAsyncInit = function () {
       FB.init({
         appId      : '1077877792269491',
         xfbml      : true,
         version    : 'v2.6'
-      });
-
-      FB.login(Memory.init, {
-        scope: 'user_friends, user_photos'
       });
     };
 
@@ -38,8 +34,15 @@
     </div>
   </header>
   <div id="clock"></div>
+  <div id="controls">
+    <button class="btn-default" data-action="fb">Use facebook friends.</button>
+    <button class="btn-default" data-action="default">Use default images.</button>
+  </div>
   <div class="container">
     <div id="board" class="row"></div>
+    <div id="in-game-controls" class="row">
+      <button class="btn-default hide" data-action="restart">Restart</button>
+    </div>
   </div>
 </body>
 <script type="underscore/template" id="tiles-tpl">
@@ -61,7 +64,7 @@
 <script type="text/javascript">
 
   (function() {
-    // Memory.init();
+    Memory.init();
   })();
 
 </script>

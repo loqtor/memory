@@ -8,16 +8,21 @@
 
     var limit = null,
         clockContainer = null,
+        t = null,
 
         promise = null,
-        gameOver = false;
+        gameOver = false,
 
         updateClock = function () {
           clockContainer.html(--limit);
         },
 
         countdown = function (resolve) {
-          setTimeout(function () {
+          if (t !== null) {
+            clearInterval(t);
+          }
+
+          t = setInterval(function () {
             updateClock();
 
             if (limit > 0 && !gameOver) {
